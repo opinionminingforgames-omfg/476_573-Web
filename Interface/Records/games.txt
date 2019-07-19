@@ -1,0 +1,3 @@
+Asphalt C:\\Users\\star\\Desktop\\WorkSpaces\\eclipse-ws\\Opinion Mining For Games\\Asphalt.png Genres = {Race Action}
+League Of Legends C:\\Users\\star\\Desktop\\WorkSpaces\\eclipse-ws\\Opinion Mining For Games\\League Of Legends.png Genres = {Fantasy Action}
+Call Of Duty C:\\Users\\star\\Desktop\\WorkSpaces\\eclipse-ws\\Opinion Mining For Games\\Call Of Duty.png Genres = {War}

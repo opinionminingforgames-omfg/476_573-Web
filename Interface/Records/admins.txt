@@ -1,0 +1,3 @@
+admin1 pswd: data
+admin2 pswd: data
+admin3 pswd: data
