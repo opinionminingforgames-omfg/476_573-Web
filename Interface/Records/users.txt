@@ -1,3 +1,4 @@
-user1 pswd: u1
-user2 pswd: u2
-user3 pswd: u3
+user1 pswd: u1 interests = {action horror war}
+user2 pswd: u2 interests = {simulation}
+user3 pswd: u3 interests = {tension fantasy}
+user4 pswd: u4 interests = {romantic strategy}

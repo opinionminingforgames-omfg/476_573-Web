@@ -24,6 +24,8 @@ public class LoginScreen {
     private ArrayList<User> users;
     private ArrayList<Admin> admin;
     private ArrayList<Game> game;
+    private Game cG;
+    private User cU;
 
 	public static void main(String[] args) {
 		
@@ -66,17 +68,23 @@ public class LoginScreen {
 	            while ((line = br.readLine()) != null) {
 	            	if(line.length() > 0) {
 		            	String u = line.substring(0, line.indexOf(" "));
-		            	String p = line.substring(line.indexOf("pswd: ") + 6);
-		            	users.add(new User(u, p));
+		            	String p = line.substring(line.indexOf("pswd: ") + 6, line.indexOf("interests = {")-1);
+		            	String i = line.substring(line.indexOf("interests = {"), line.length()-1);
+		            	
+		            	User us = new User(u, p, i);
+		            	users.add(us);
 	            	}
 	            }
-	            
+	            	            
 	            br = Files.newBufferedReader(Paths.get(absPthA));
 	            while ((line = br.readLine()) != null) {
 	            	if(line.length() > 0) {
 		            	String u = line.substring(0, line.indexOf(" "));
-		            	String p = line.substring(line.indexOf("pswd: ") + 6);
-		            	admin.add(new Admin(u, p));
+		            	String p = line.substring(line.indexOf("pswd: ") + 6, line.indexOf("interests = {")-1);
+		            	String i = line.substring(line.indexOf("interests = {"), line.length()-1);
+		            	
+		            	Admin us = new Admin(u, p, i);
+		            	admin.add(us);
 	            	}
 	            }
 	            
@@ -84,15 +92,18 @@ public class LoginScreen {
 	            while ((line = br.readLine()) != null) {
 	            	if(line.length() > 0) {
 		            	String name = line.substring(0, line.indexOf("C:\\\\"));
-		            	String genres = line.substring(line.indexOf("Genres = {") + 10, line.length()-1);
-		            	game.add(new Game(name, genres, "Ab", 3));
+		            	String genres = line.substring(line.indexOf("Genres = {") + 10, line.indexOf("Content = {")-2);
+		            	String con = line.substring(line.indexOf("Content = {")+ 11, line.length() -1);
+		     
+		            	Game g = new Game(name, genres, 3, con);
+		            	game.add(g);
 	            	}
 	            }
 	            br.close();
 	        } catch (IOException e) {
 	            System.err.format("IOException: %s%n", e);
 	        }
-			
+				        
 		    f = new JFrame();
 		    JTextField uname = new JTextField();
 		    JTextField pswd = new JTextField();
@@ -127,6 +138,7 @@ public class LoginScreen {
 							if(un.equals(admin.get(i).getUname()))
 								if(pw.equals(admin.get(i).getPswd())) {
 									auth = 1;
+									cU = admin.get(i);
 									initialize();
 									break;
 								}
@@ -136,6 +148,7 @@ public class LoginScreen {
 								if(un.equals(users.get(i).getUname()))
 									if(pw.equals(users.get(i).getPswd())) {
 										auth = -1;
+										cU = users.get(i);
 										initialize();
 										break;
 									}
@@ -193,10 +206,12 @@ public class LoginScreen {
 	            String line;
 	            while ((line = br.readLine()) != null) {
 	            	if(line.length() > 0) {
-		            	String name = line.substring(0, line.indexOf("C:\\\\"));
+		            	String name = line.substring(0, line.indexOf("C:\\\\")-1);
 		            	String p2p = line.substring(line.indexOf("C:\\\\"), line.indexOf("Genres = {"));
-		            	String genres = line.substring(line.indexOf("Genres = {"));
-		                createGame(name, p2p, genres);
+		            	String genres = line.substring(line.indexOf("Genres = {") + 10, line.indexOf("Content = {")-2);
+		            	String content = line.substring(line.indexOf("Content = {")+ 11, line.length()-1);
+		            	
+		                createGame(name, p2p, genres, content);
 	            	}
 	            }
 	            br.close();
@@ -256,19 +271,34 @@ public class LoginScreen {
 					f.getContentPane().add(gtba3);
 					f.getContentPane().add(genre);
 					
+					JTextField gtba4 = new JTextField();
+					gtba4.setForeground(Color.BLACK);
+					gtba4.setFont(new Font("MV Boli", Font.BOLD, 12));
+					gtba4.setBackground(SystemColor.text);
+					gtba4.setBounds(80, 142, 472, 21);
+				
+					JLabel content = new JLabel("Content");
+					content.setFont(new Font("Segoe UI", Font.BOLD, 13));
+					content.setBounds(5, 142, 80, 23);
+					content.setForeground(Color.yellow);
+				
+					f.getContentPane().add(gtba4);
+					f.getContentPane().add(content);
+					
 					JButton submit = new JButton("Submit");
 					submit.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
 							String name = gtba.getText();
 							String p2p = gtba2.getText();
 							String genres = gtba3.getText();
+							String info = gtba4.getText();
 							
-							createGame(name, p2p, genres);
+							createGame(name, p2p, genres, info);
 							FileWriter fw;
 							
 							try {
 					                fw = new FileWriter(absPth, true);
-					                fw.append("\r\n" + name + " " +p2p +" Genres = {"+ genres + "}");
+					                fw.append("\r\n" + name + " " +p2p +" Genres = {"+ genres + "}" +" Content = {"+ info + "}" );
 						            fw.close();
 						            
 					        } catch (IOException e) {
@@ -281,7 +311,7 @@ public class LoginScreen {
 					submit.setFont(new Font("Segoe UI", Font.BOLD, 13));
 					submit.setForeground(Color.GREEN);
 					
-					submit.setBounds(365, 142, 90, 23);
+					submit.setBounds(365, 172, 90, 23);
 					f.getContentPane().add(submit);
 				
 					JButton cancel = new JButton("Cancel");
@@ -292,7 +322,7 @@ public class LoginScreen {
 					});
 					cancel.setFont(new Font("Segoe UI", Font.BOLD, 13));
 					cancel.setForeground(Color.RED);
-					cancel.setBounds(460, 142, 90, 23);
+					cancel.setBounds(460, 172, 90, 23);
 					f.getContentPane().add(cancel);
 					
 					JLabel bgi= new JLabel("bg");
@@ -319,6 +349,7 @@ public class LoginScreen {
 			f.setVisible(true);
 		}
 		else if(auth == -1){
+			
 			auth = 0;
 			f = new JFrame();
 			f.setTitle("G.E.S.");
@@ -343,10 +374,12 @@ public class LoginScreen {
 	            String line;
 	            while ((line = br.readLine()) != null) {
 	            	if(line.length() > 0) {
-		            	String name = line.substring(0, line.indexOf("C:\\\\"));
+		            	String name = line.substring(0, line.indexOf("C:\\\\")-1);
 		            	String p2p = line.substring(line.indexOf("C:\\\\"), line.indexOf("Genres = {"));
-		            	String genres = line.substring(line.indexOf("Genres = {"));
-		                createGame(name, p2p, genres);
+		            	String genres = line.substring(line.indexOf("Genres = {") +10, line.indexOf("Content = {")-2);
+		            	String content = line.substring(line.indexOf("Content = {")+ 11, line.length()-1);
+		            	
+		                createGame(name, p2p, genres, content);
 	            	}
 	            }
 	            br.close();
@@ -364,15 +397,46 @@ public class LoginScreen {
 		}
 	}
 	
-	private void createGame(String name, String p2p, String genres) {
+	private void createGame(String name, String p2p, String genres, String content) {
+
+		Game ga = new Game(name, genres, 0.0, content);
+		game.add(ga);
+		
+		textArea = new JTextArea();
+		String directory = "C:\\Users\\star\\Desktop";
+		String cf = "comments.txt";
+		String absPthC = directory + File.separator + cf;
 		
 		JMenuItem crys = new JMenuItem(name);
 		crys.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				cG = ga;
+				cG.comments = (ArrayList<Comment>)ga.comments.clone();
+		        try {
+		            String line;
+		            BufferedReader br = Files.newBufferedReader(Paths.get(absPthC));
+		            while ((line = br.readLine()) != null) {
+		            	if(line.length() > 0) {
+			            	String content = line.substring(11, line.indexOf("ofGame")-2);
+			            	String g = line.substring(line.indexOf("ofGame = ") + 9, line.indexOf("ofUser")-1);
+			            	String u = line.substring(line.indexOf("ofUser = ") + 9, line.length());
+			            	
+			            	Comment com = new Comment(g, u, content);
+			            	if(ga.getName().equals(g)) {
+			            		textArea.append(u + " said " +com.getContent() + "\n");
+			            		ga.comments.add(com);
+			            	}
+			            	if(cU.getUname().equals(u)) 
+			            		cU.comments.add(com);
+			            	
+		            	}
+		            }}catch (IOException e) { 
+		            	System.err.format("IOException: %s%n", e);
+		            }
+		        
 				asph = new JFrame();
 				asph.setVisible(true);
-			    textArea = new JTextArea();
 				asph.setTitle(name);
 				asph.setBounds(100, 100, 596, 549);
 				asph.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -388,10 +452,32 @@ public class LoginScreen {
 				
 				JLabel rating = new JLabel("RATED: " + String.valueOf(res) + " /5");
 				rating.setFont(new Font("Segoe UI", Font.BOLD, 13));
-				rating.setBounds(443, 75, 114, 23);
+				rating.setBounds(285, 25, 114, 23);
 				rating.setForeground(Color.BLUE);
 				asph.getContentPane().add(rating);
 				
+				String g = "";
+				for(int i=0; i< game.size(); i++)
+					if(name.equals(game.get(i).getName())) 
+						g = game.get(i).getGenres();
+				
+				JLabel genres = new JLabel("Genre: " + g);
+				genres.setFont(new Font("Segoe UI", Font.BOLD, 13));
+				genres.setBounds(10, 105, 175, 23);
+				genres.setForeground(Color.YELLOW);
+				asph.getContentPane().add(genres);
+				
+				String c = "";
+				for(int i=0; i< game.size(); i++)
+					if(name.equals(game.get(i).getName())) 
+						c = game.get(i).getContent();
+				
+				JLabel con = new JLabel("Content: " + c);
+				con.setFont(new Font("Segoe UI", Font.BOLD, 13));
+				con.setBounds(10, 115, 374, 100);
+				con.setForeground(Color.YELLOW);
+				asph.getContentPane().add(con);
+								
 				JButton btnNewButton = new JButton("COMMENT");
 				btnNewButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
@@ -416,8 +502,24 @@ public class LoginScreen {
 						done.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent arg0) {
 								String tmp = tf.getText();
-								if(tmp.length()>0)
-									textArea.append("user x said "+ tmp +"\n");
+								if(tmp.length()>0) {
+									textArea.append(cU.getUname() + " said "+ tmp +"\n");
+									Comment c = new Comment(cG.getName(), cU.getUname(), tmp);
+									cU.comments.add(c);
+									cG.comments.add(c);
+									
+									FileWriter fw;
+									
+									try {
+							                fw = new FileWriter(absPthC, true);
+							                fw.append("\r\nContent = {" +tmp+ "} " + "ofGame = " +cG.getName() + " ofUser = " +
+							                			cU.getUname());
+								            fw.close();
+								            
+							        } catch (IOException e) {
+							            System.err.format("IOException: %s%n", e);
+							        } 
+								}
 								f.dispose();
 							}
 						});

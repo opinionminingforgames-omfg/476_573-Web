@@ -1,19 +1,30 @@
+import java.util.ArrayList;
 
 public class Game {
 	
-	String name;
-	String genres;
-	String comments;
-	double rating;
+	private String name;
+	private String genres;
+	ArrayList<Comment> comments;
+	private double rating;
+	private String content;
 	
 	public Game() { }
 	
-	public Game(String n, String g, String c, double r) {
+	public Game(String n, String g, double r, String con) {
 		
 		setName(n);
 		setGenres(g);
-		setComments(c);
+		comments = new ArrayList<Comment>();
 		setRating(r);
+		setContent(con);
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	private void setContent(String content) {
+		this.content = content;
 	}
 
 	public String getName() {
@@ -24,7 +35,7 @@ public class Game {
 		return genres;
 	}
 
-	public String getComments() {
+	public ArrayList<Comment> getComments() {
 		return comments;
 	}
 
@@ -39,11 +50,7 @@ public class Game {
 	private void setGenres(String genres) {
 		this.genres = genres;
 	}
-
-	private void setComments(String comments) {
-		this.comments = comments;
-	}
-
+	
 	private void setRating(double rating) {
 		this.rating = rating;
 	}
