@@ -15,6 +15,15 @@ public class Classification {
 	{
 	}
 	
+	public void Train(Instances data)
+	{
+	}
+	
+	public String TestInstance(Instances test)
+	{
+		return "";
+	}
+	
 	public void PrintResult()
 	{
 	}

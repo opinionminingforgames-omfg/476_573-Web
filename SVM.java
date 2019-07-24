@@ -5,6 +5,8 @@ import weka.classifiers.functions.SMO;
 import weka.core.Instances;
 
 public class SVM extends Classification {
+	SMO smoClass;
+	
 	public void MakeClasification(Instances data)
 	{
 		Instances test = new Instances(data);
@@ -30,7 +32,7 @@ public class SVM extends Classification {
 				}
 			}
 			
-			SMO smoClass = new SMO();
+			smoClass = new SMO();
 			
 			try {
 				smoClass.buildClassifier(data);
@@ -78,6 +80,44 @@ public class SVM extends Classification {
 			PrintResult(j);
 		}
 	}
+	
+	public void Train(Instances data)
+	{
+		smoClass = new SMO();
+			
+		try {
+			smoClass.buildClassifier(data);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		Evaluation testData = null;
+		try {
+			testData = new Evaluation(data);
+			testData.evaluateModel(smoClass, data);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public String TestInstance(Instances test)
+	{
+		double pred = 0;
+		try {
+			pred = smoClass.classifyInstance(test.instance(0));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		String classVal = test.classAttribute().value((int) pred);
+		
+		return classVal;
+		
+	}
+	
 	public void PrintResult(int index)
 	{
 		System.out.println("*************************");

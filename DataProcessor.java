@@ -8,6 +8,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.tartarus.snowball.SnowballStemmer;
+import org.tartarus.snowball.ext.englishStemmer;
+
 public class DataProcessor {
 
 	private BufferedReader br;
@@ -23,7 +26,11 @@ public class DataProcessor {
 	ArrayList<String> rawData = new ArrayList<String>();
 	ArrayList<String> dataValue = new ArrayList<String>();
 	
+	ArrayList<String> testData = new ArrayList<String>();
+	ArrayList<String> testValue = new ArrayList<String>();
+	
 	ArrayList<String> feature = new ArrayList<String>();
+	ArrayList<String> testFeature = new ArrayList<String>();
 	
 	public void ReadDictionary(String filename)
 	{
@@ -91,10 +98,20 @@ public class DataProcessor {
 			br = new BufferedReader(fr);
 			String line;
 			while((line = br.readLine()) != null){
-				String[] splited = line.split("\"");
-				String[] splited2 = splited[2].split(" ");
-				rawData.add(splited[1]);
-				dataValue.add(splited2[1]);
+				String[] splited = line.split("\",");
+				int count = splited.length;
+				String comment = "";
+				String value = splited[count-1];
+				for(int i=0; i < splited.length-1; i++)
+				{
+					comment += splited[i];
+				}
+				comment = comment.substring(1);
+				value = value.substring(1);
+				value = value.substring(0,1);
+				
+				rawData.add(comment);
+				dataValue.add(value);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -125,46 +142,85 @@ public class DataProcessor {
 		}
 	}
 	
-	public void CreateFeatureVector()
+	public void CreateFeatureVectorForData(String filename)
+	{
+		CreateFeatureVector(rawData, feature);
+		WriteFeatureVectorToFile(filename, feature, dataValue);
+	}
+	
+	public void CreateFeatureVectorForTest(String comment, String filename)
+	{
+		testData.clear();
+		testValue.clear();
+		
+		testData.add(comment);
+		testValue.add("1");
+		
+		CreateFeatureVector(testData, testFeature);
+		WriteFeatureVectorToFile(filename, testFeature, testValue);
+	}
+	
+	public void CreateFeatureVectorForTest(ArrayList<String> comment, String filename)
+	{
+		
+		for(int i=0; i<comment.size(); i++)
+		{
+			testValue.add("1");
+		}
+		
+		CreateFeatureVector(comment, testFeature);
+		WriteFeatureVectorToFile(filename, testFeature, testValue);
+	}
+	
+	protected void CreateFeatureVector(ArrayList<String> list, ArrayList<String> listFeature)
 	{
 		
 		int vNNumber = 0;
 		int nNumber = 0;
 		int vPNumber = 0;
 		int pNumber = 0;
-		for (int i=0; i<rawData.size(); i++) {
+		for (int i=0; i<list.size(); i++) {
 			
 			vNNumber = 0;
 			nNumber = 0;
 			vPNumber = 0;
 			pNumber = 0;
 			
-			String data = rawData.get(i);
+			String data = list.get(i);
 			
 			String[] token = data.split(" ");
+			
+			SnowballStemmer stemmer = new englishStemmer();
+			
+            
 			for(int j=0; j<token.length;j++)
 			{
-				if(vNegative.contains(token[j])) {
+				stemmer.setCurrent(token[j]);
+	            stemmer.stem();
+	            String word = stemmer.getCurrent();
+	            
+	            //System.out.println("Token "+token[j] + " stem : "+word);
+				if(vNegative.contains(word)) {
 					vNNumber++;
 				}
-				if(negative.contains(token[j])) {
+				if(negative.contains(word)) {
 					nNumber++;
 				}
-				if(vPositive.contains(token[j])) {
+				if(vPositive.contains(word)) {
 					vPNumber++;
 				}
-				if(positive.contains(token[j])) {
+				if(positive.contains(word)) {
 					pNumber++;
 				}
 			}
 			String fStr = vNNumber + ", " + nNumber + ", " + vPNumber + ", " + pNumber;
-			feature.add(fStr);
-			System.out.println(fStr);
+			listFeature.add(fStr);
+			//System.out.println(fStr);
 		}
 		
 	}
 	
-	public void WriteFeatureVectorToFile(String filename)
+	protected void WriteFeatureVectorToFile(String filename, ArrayList<String> listFeature, ArrayList<String> listValue)
 	{
 		File file = new File(filename);
 		FileWriter fw;
@@ -187,18 +243,18 @@ public class DataProcessor {
 			fw.write("@attribute Positive	NUMERIC");
 			fw.write(System.getProperty("line.separator"));
 			
-			fw.write("@attribute \"class\" {1,2,3,4,5");
+			fw.write("@attribute \"class\" {1,2,3,4,5}");
 			
 			fw.write(System.getProperty("line.separator"));
 			fw.write(System.getProperty("line.separator"));
 
 			fw.write("@data");
 			fw.write(System.getProperty("line.separator"));
-			for (int i=0; i<feature.size(); i++) {
+			for (int i=0; i<listFeature.size(); i++) {
 				
-				String data = feature.get(i);
+				String data = listFeature.get(i);
 				
-				fw.write(data+", "+dataValue.get(i));
+				fw.write(data+", "+listValue.get(i));
 				fw.write(System.getProperty("line.separator"));
 			}
 			fw.close();
