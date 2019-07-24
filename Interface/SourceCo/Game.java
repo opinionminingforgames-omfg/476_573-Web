@@ -51,7 +51,7 @@ public class Game {
 		this.genres = genres;
 	}
 	
-	private void setRating(double rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 }

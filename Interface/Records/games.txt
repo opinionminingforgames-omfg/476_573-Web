@@ -1,4 +1,4 @@
-Asphalt C:\\Users\\star\\Desktop\\WorkSpaces\\eclipse-ws\\Opinion Mining For Games\\Asphalt.png Genres = {Race Action} Content = {Asp}
-League Of Legends C:\\Users\\star\\Desktop\\WorkSpaces\\eclipse-ws\\Opinion Mining For Games\\League Of Legends.png Genres = {Fantasy Action} Content = {Lol}
-Call Of Duty C:\\Users\\star\\Desktop\\WorkSpaces\\eclipse-ws\\Opinion Mining For Games\\Call Of Duty.png Genres = {War} Content = {Cod}
-Fortnite C:\\Users\\star\\Desktop\\WorkSpaces\\eclipse-ws\\Opinion Mining For Games\\Fortnite.png Genres = {Battle Royal} Content = {the last survivor wins}
+Asphalt C:\\Users\\star\\Desktop\\WorkSpaces\\eclipse-ws\\Opinion Mining For Games\\Asphalt.png Genres = {Race Action} Content = {Asp} Rating = {2.7}
+League Of Legends C:\\Users\\star\\Desktop\\WorkSpaces\\eclipse-ws\\Opinion Mining For Games\\League Of Legends.png Genres = {Fantasy Action} Content = {Lol} Rating = {2.7}
+Call Of Duty C:\\Users\\star\\Desktop\\WorkSpaces\\eclipse-ws\\Opinion Mining For Games\\Call Of Duty.png Genres = {War} Content = {Cod} Rating = {3.7}
+Fortnite C:\\Users\\star\\Desktop\\WorkSpaces\\eclipse-ws\\Opinion Mining For Games\\Fortnite.png Genres = {Battle Royal} Content = {the last survivor wins} Rating = {1.7}

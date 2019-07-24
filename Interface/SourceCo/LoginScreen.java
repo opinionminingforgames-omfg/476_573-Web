@@ -19,6 +19,7 @@ public class LoginScreen {
 	private JFrame f;
 	private JFrame asph;
     private JTextArea textArea;
+    private JTextArea recom;
 	private JMenu games;
     int auth = 0;
     private ArrayList<User> users;
@@ -93,9 +94,9 @@ public class LoginScreen {
 	            	if(line.length() > 0) {
 		            	String name = line.substring(0, line.indexOf("C:\\\\"));
 		            	String genres = line.substring(line.indexOf("Genres = {") + 10, line.indexOf("Content = {")-2);
-		            	String con = line.substring(line.indexOf("Content = {")+ 11, line.length() -1);
-		     
-		            	Game g = new Game(name, genres, 3, con);
+		            	String con = line.substring(line.indexOf("Content = {")+ 11, line.indexOf("Rating = {")-2);
+		            	String rating = line.substring(line.indexOf("Rating = {")+ 10, line.length()-1);
+		            	Game g = new Game(name, genres, Double.valueOf(rating), con);
 		            	game.add(g);
 	            	}
 	            }
@@ -301,6 +302,7 @@ public class LoginScreen {
 					                fw.append("\r\n" + name + " " +p2p +" Genres = {"+ genres + "}" +" Content = {"+ info + "}" );
 						            fw.close();
 						            
+						            
 					        } catch (IOException e) {
 					            System.err.format("IOException: %s%n", e);
 					        } 
@@ -377,7 +379,7 @@ public class LoginScreen {
 		            	String name = line.substring(0, line.indexOf("C:\\\\")-1);
 		            	String p2p = line.substring(line.indexOf("C:\\\\"), line.indexOf("Genres = {"));
 		            	String genres = line.substring(line.indexOf("Genres = {") +10, line.indexOf("Content = {")-2);
-		            	String content = line.substring(line.indexOf("Content = {")+ 11, line.length()-1);
+		            	String content = line.substring(line.indexOf("Content = {")+ 11, line.indexOf("Rating = {")-2);
 		            	
 		                createGame(name, p2p, genres, content);
 	            	}
@@ -403,6 +405,7 @@ public class LoginScreen {
 		game.add(ga);
 		
 		textArea = new JTextArea();
+		recom = new JTextArea();
 		String directory = "C:\\Users\\star\\Desktop";
 		String cf = "comments.txt";
 		String absPthC = directory + File.separator + cf;
@@ -413,6 +416,13 @@ public class LoginScreen {
 				
 				cG = ga;
 				cG.comments = (ArrayList<Comment>)ga.comments.clone();
+				
+				int res = calcRate(cG.comments);
+				int i=0;
+				for(i=0; i<game.size(); i++)
+					if(game.get(i).getName().equals(name)) {
+						game.get(i).setRating(res);
+						break; }
 		        try {
 		            String line;
 		            BufferedReader br = Files.newBufferedReader(Paths.get(absPthC));
@@ -442,22 +452,20 @@ public class LoginScreen {
 				asph.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				asph.getContentPane().setLayout(null);
 				
-				int res = 0;
-				
 				JLabel lblWhatDoPlayers = new JLabel("What do players think about " + name+" ?");
 				lblWhatDoPlayers.setForeground(Color.YELLOW);
 				lblWhatDoPlayers.setFont(new Font("Segoe UI", Font.BOLD, 13));
 				lblWhatDoPlayers.setBounds(10, 28, 252, 14);
 				asph.getContentPane().add(lblWhatDoPlayers);
 				
-				JLabel rating = new JLabel("RATED: " + String.valueOf(res) + " /5");
+				JLabel rating = new JLabel("RATED: " + String.valueOf(game.get(i).getRating()) + " /5");
 				rating.setFont(new Font("Segoe UI", Font.BOLD, 13));
 				rating.setBounds(285, 25, 114, 23);
 				rating.setForeground(Color.BLUE);
 				asph.getContentPane().add(rating);
 				
 				String g = "";
-				for(int i=0; i< game.size(); i++)
+				for(i=0; i< game.size(); i++)
 					if(name.equals(game.get(i).getName())) 
 						g = game.get(i).getGenres();
 				
@@ -468,7 +476,7 @@ public class LoginScreen {
 				asph.getContentPane().add(genres);
 				
 				String c = "";
-				for(int i=0; i< game.size(); i++)
+				for(i=0; i< game.size(); i++)
 					if(name.equals(game.get(i).getName())) 
 						c = game.get(i).getContent();
 				
@@ -564,6 +572,30 @@ public class LoginScreen {
 				
 				JScrollPane scrollPane2 = new JScrollPane();
 				scrollPane2.setBounds(10, 98, 412, 87);
+				
+
+				JLabel rec = new JLabel("We found these similiar to your interests... Give them a try!");
+				rec.setForeground(Color.YELLOW);
+				rec.setFont(new Font("Segoe UI", Font.BOLD, 13));
+				rec.setBounds(10, 275, 372, 14);
+				asph.getContentPane().add(rec);
+				
+				JScrollPane scrollPane3 = new JScrollPane();
+				scrollPane3.setBounds(10, 290, 412, 141);
+				asph.getContentPane().add(scrollPane3);
+				
+				recom.setForeground(Color.BLACK);
+				recom.setFont(new Font("MV Boli", Font.BOLD, 12));
+				scrollPane3.setViewportView(recom);
+				recom.setBackground(SystemColor.text);
+				recom.setEditable(false);
+				
+				JScrollPane scrollPane4 = new JScrollPane();
+				scrollPane4.setBounds(10, 98, 412, 87);
+				
+				for(i=0; i<game.size(); i++)
+					if(game.get(i).getRating()>=res && recom.getText().indexOf(game.get(i).getName()) <0) 
+						recom.append(game.get(i).getName() + " " + game.get(i).getGenres() + " " + (game.get(i).getRating())+"\n");
 
 				JLabel bg = new JLabel("bg");
 				bg.setFont(new Font("Segoe UI", Font.BOLD, 13));
@@ -573,5 +605,11 @@ public class LoginScreen {
 			}
 		});
 		games.add(crys);
+	}
+	public int calcRate(ArrayList<Comment> c) {
+		
+		int rate = 2;
+		//System.out.println(c.getText());
+		return rate;
 	}
 }

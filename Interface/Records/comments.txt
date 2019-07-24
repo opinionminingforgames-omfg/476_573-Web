@@ -9,3 +9,7 @@ Content = {what's with this} ofGame = League Of Legends ofUser = admin2
 Content = {crap} ofGame = Call Of Duty ofUser = user3
 Content = {racceee} ofGame = Asphalt ofUser = admin1
 Content = {unnecc} ofGame = Asphalt ofUser = admin1
+Content = {bcd} ofGame = Asphalt ofUser = admin1
+Content = {whoops} ofGame = Asphalt ofUser = user1
+Content = {damn good game} ofGame = Asphalt ofUser = admin1
+Content = {sucks} ofGame = Call Of Duty ofUser = user3
