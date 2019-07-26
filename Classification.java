@@ -1,4 +1,3 @@
-package game;
 
 import weka.core.Instances;
 

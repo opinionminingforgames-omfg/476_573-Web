@@ -1,4 +1,3 @@
-package game;
 
 import weka.classifiers.Evaluation;
 import weka.classifiers.functions.SMO;

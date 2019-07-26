@@ -1,4 +1,3 @@
-package game;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,10 +18,12 @@ public class ML {
 	DataProcessor pro;
 	Classification objClassification;
 	
-	public ML()
+	public ML(String dataPath)
 	{
+                dataset = dataPath;
 		pro = new DataProcessor();
 		objClassification = new SVM();
+                Init();
 	}
 	
 	public void Init()

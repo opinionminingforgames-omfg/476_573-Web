@@ -49,8 +49,8 @@ public class LoginScreen {
 	private void initialize() {
 		
 		if(auth == 0) {
-			
-			String directory = "C:\\Users\\star\\Desktop";
+
+			String directory = ".//Interface//Records";
 			String uf = "users.txt";
 			String absPthU = directory + File.separator + uf;
 			users  = new ArrayList<User>();
@@ -176,7 +176,7 @@ public class LoginScreen {
 			
 			JLabel bgi= new JLabel("bg");
 			bgi.setFont(new Font("Segoe UI", Font.BOLD, 13));
-			bgi.setIcon(new ImageIcon("C:\\Users\\star\\Desktop\\WorkSpaces\\eclipse-ws\\Opinion Mining For Games\\OMBG.png"));
+			bgi.setIcon(new ImageIcon("\\Interface\\Backgrounds\\OMBG.png"));
 			bgi.setBounds(0, 0, 610, 510);
 			
 		    f.getContentPane().add(bgi);
@@ -199,7 +199,7 @@ public class LoginScreen {
 			games.setFont(new Font("Segoe UI", Font.BOLD, 13));
 			menuBar.add(games);
 			
-			String directory = "C:\\Users\\star\\Desktop";
+			String directory = "\\";
 			String fileName = "games.txt";
 			String absPth = directory + File.separator + fileName;
 			
@@ -329,7 +329,7 @@ public class LoginScreen {
 					
 					JLabel bgi= new JLabel("bg");
 					bgi.setFont(new Font("Segoe UI", Font.BOLD, 13));
-					bgi.setIcon(new ImageIcon("C:\\Users\\star\\Desktop\\WorkSpaces\\eclipse-ws\\Opinion Mining For Games\\OMBG.png"));
+					bgi.setIcon(new ImageIcon("\\Interface\\Backgrounds\\OMBG.png"));
 					bgi.setBounds(0, 0, 580, 510);
 					
 				    f.getContentPane().add(bgi);
@@ -344,7 +344,7 @@ public class LoginScreen {
 			
 			JLabel bg= new JLabel("bg");
 			bg.setFont(new Font("Segoe UI", Font.BOLD, 13));
-			bg.setIcon(new ImageIcon("C:\\Users\\star\\Desktop\\WorkSpaces\\eclipse-ws\\Opinion Mining For Games\\OMBG.png"));
+			bg.setIcon(new ImageIcon("\\Interface\\Backgrounds\\OMBG.png"));
 			bg.setBounds(0, 0, 1180, 510);
 			
 			f.getContentPane().add(bg);
@@ -368,7 +368,7 @@ public class LoginScreen {
 			games.setFont(new Font("Segoe UI", Font.BOLD, 13));
 			menuBar.add(games);
 			
-			String directory = "C:\\Users\\star\\Desktop";
+			String directory = "\\";
 			String fileName = "games.txt";
 			String absPth = directory + File.separator + fileName;
 
@@ -391,7 +391,7 @@ public class LoginScreen {
 			
 			JLabel bg= new JLabel("bg");
 			bg.setFont(new Font("Segoe UI", Font.BOLD, 13));
-			bg.setIcon(new ImageIcon("C:\\Users\\star\\Desktop\\WorkSpaces\\eclipse-ws\\Opinion Mining For Games\\OMBG.png"));
+			bg.setIcon(new ImageIcon("\\Interface\\Backgrounds\\OMBG.png"));
 			bg.setBounds(0, 0, 1180, 510);
 			
 			f.getContentPane().add(bg);
@@ -406,7 +406,7 @@ public class LoginScreen {
 		
 		textArea = new JTextArea();
 		recom = new JTextArea();
-		String directory = "C:\\Users\\star\\Desktop";
+		String directory = "\\";
 		String cf = "comments.txt";
 		String absPthC = directory + File.separator + cf;
 		
