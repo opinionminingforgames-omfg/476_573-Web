@@ -3,6 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,16 +17,15 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static org.hibernate.criterion.Expression.sql;
+//import static org.hibernate.criterion.Expression.sql;
 /**
  *
  * @author yukselkaradeniz
  */
 public class DBLayer extends Exception {
-    int recipeId = 0;
     private Connection conn;
-    String dbUrl = "jdbc:derby://localhost:1527/OMFG";
-    String name = "omfg";String pass = "123";
+    String dbUrl = "jdbc:derby://localhost:1527/OMFG5";
+    String name = "omfg5";String pass = "1234";
     public static String user="";
     public static String trend="";
     
@@ -117,6 +119,7 @@ public class DBLayer extends Exception {
     
    public Connection connect(){
         try{
+            
             Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
             conn = DriverManager.getConnection(dbUrl, name, pass);
             System.out.println("connected");
@@ -172,10 +175,12 @@ public class DBLayer extends Exception {
             connect();
         }
         try {
+
             Statement stmt = conn.createStatement();
-            String sql = "SELECT * FROM USERINF WHERE NAME = '"+name+"' AND PASSWORD = '"+password+"'";
+            String sql = "SELECT * FROM USERINF WHERE NAME = '" +name+ "' AND PASSWORD = '"+ password+ "'";
             ResultSet rs = stmt.executeQuery(sql);
             ResultSetMetaData rsmd = rs.getMetaData();
+
             if(rs.next() == false){
                 System.out.println("Invalid Password or username!!! ");
                 return false;
@@ -407,10 +412,158 @@ public class DBLayer extends Exception {
     }
 
     
-    public static void main(String args[]){
+    public void printUsers() throws IOException{
+        
+    if(conn == null){
+            System.out.println("Database is NOT connected");
+            connect();
+    }
+        try {
+            Statement stmt = conn.createStatement();
+            String sql = "SELECT * FROM USERINF";
+            ResultSet rs = stmt.executeQuery(sql);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            System.out.println("debugyuko1");
+            if(rs.next() == false){
+                System.out.println("Invalid or Empty");
+            }else{
+                FileWriter writer = new FileWriter("/home/user/NetBeansProjects/OMFG5/Interface/Records/users.txt");
+                while(rs.next()!= false){
+                    
+                    String name = (String) rs.getObject("NAME");
+                    String pass = (String)rs.getObject("PASSWORD") ;
+                    String trend = (String) rs.getObject("TREND") ;                    
+                    String content = name+" psmd: "+pass+" interests = {"+trend+"}";
+                    System.out.println("content:"+content);
+                    
+                    
+                    writer.write(content+"\n");
+                }
+                writer.close();
+            }
+            stmt.close();
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+     
+    }
+    
+    public void printGames() throws IOException{
+        
+    if(conn == null){
+            System.out.println("Database is NOT connected");
+            connect();
+    }
+        try {
+            Statement stmt = conn.createStatement();
+            String sql = "SELECT * FROM GAMEINF";
+            ResultSet rs = stmt.executeQuery(sql);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            System.out.println("debugyuko1");
+            if(rs.next() == false){
+                System.out.println("Invalid or Empty");
+            }else{
+                FileWriter writer = new FileWriter("/home/user/NetBeansProjects/OMFG5/Interface/Records/games.txt");
+                while(rs.next()!= false){
+                    String trend="";
+                    String name = (String) rs.getObject("NAME");
+                    String action = ""+(boolean) rs.getObject("ACTION") ;
+                    String raceAndCar =""+(boolean) rs.getObject("RACEANDCAR") ;
+                    String card =""+ (boolean) rs.getObject("CARD") ;
+                    String strategy = ""+(boolean) rs.getObject("STRATEGY") ;
+                    String adventure =""+ (boolean) rs.getObject("ADVENTURE") ;
+                    String online =""+ (boolean) rs.getObject("ONLINE") ;
+                    String simulation =""+ (boolean) rs.getObject("SIMULATION") ;
+                    String management = ""+(boolean) rs.getObject("MANAGEMENT") ;
+                    String horror = ""+(boolean) rs.getObject("HORROR") ;
+                    String mental =""+ (boolean) rs.getObject("MENTAL") ;
+                    
+                    if(action.equalsIgnoreCase("true"))
+                        trend +=action+" ";
+                    if(raceAndCar.equalsIgnoreCase("true"))
+                        trend +=raceAndCar+" ";
+                    if(card.equalsIgnoreCase("true"))
+                        trend +=card+" ";
+                    if(strategy.equalsIgnoreCase("true"))
+                        trend +=strategy+" ";
+                    if(adventure.equalsIgnoreCase("true"))
+                        trend +=adventure+" ";
+                    if(online.equalsIgnoreCase("true"))
+                        trend +=online+" ";
+                    if(simulation.equalsIgnoreCase("true"))
+                        trend +=simulation+" ";
+                    if(management.equalsIgnoreCase("true"))
+                        trend +=management+" ";
+                    if(horror.equalsIgnoreCase("true"))
+                        trend +=horror+" ";
+                    if(mental.equalsIgnoreCase("true"))
+                        trend +=mental+" ";
+                    
+                    trend = trend.substring(0,trend.length()-1);
+                    
+
+                    
+                    String content = name+" /home/user/NetBeansProjects/OMFG5/Interface/Backgrounds/"+name+".png Genres={"+trend+
+                                                "} Content = {AMAZING GAME} RATING = {3.0}";
+                    System.out.println("content:"+content);
+                    
+                    
+                    writer.write(content+"\n");
+                }
+                writer.close();
+            }
+            stmt.close();
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+     
+    }
+    
+    public void printComments() throws IOException{
+        
+    if(conn == null){
+            System.out.println("Database is NOT connected");
+            connect();
+    }
+        try {
+            Statement stmt = conn.createStatement();
+            String sql = "SELECT * FROM FEEDBACKINF";
+            ResultSet rs = stmt.executeQuery(sql);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            if(rs.next() == false){
+                System.out.println("Invalid or Empty");
+            }else{
+                FileWriter writer = new FileWriter("/home/user/NetBeansProjects/OMFG5/Interface/Records/comments.txt");
+                while(rs.next()!= false){
+                    
+                    String comment = (String) rs.getObject("COMMENT");
+                    String gameName = (String)rs.getObject("GAMENAME") ;
+                    String commentOwner = (String) rs.getObject("COMMENTOWNER") ;                    
+                    String content = "Content = {"+ comment +" ofGame = "+gameName+" ofUser = "+commentOwner;
+                    System.out.println("content:"+content);
+                    
+                    
+                    writer.write(content+"\n");
+                }
+                writer.close();
+            }
+            stmt.close();
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+     
+    }
+    public static void main(String args[]) throws IOException{
         DBLayer dblayer = new DBLayer();//....Test Platform
-        dblayer.loginUser("name","password");
+
+        dblayer.loginUser("yuksel","1234");
+        dblayer.printUsers();
+        dblayer.printGames();
+        
         
     }
+    
+    
+    
 }
  
