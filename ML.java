@@ -1,3 +1,4 @@
+package game;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,12 +19,10 @@ public class ML {
 	DataProcessor pro;
 	Classification objClassification;
 	
-	public ML(String dataPath)
+	public ML()
 	{
-                dataset = dataPath;
 		pro = new DataProcessor();
 		objClassification = new SVM();
-                Init();
 	}
 	
 	public void Init()
@@ -92,9 +91,23 @@ public class ML {
 	
 	public String GetValue(ArrayList<String> test)
 	{
-		String classValue = "";
+		if(test.size() == 0)
+		{
+			return "1";
+		}
 		
-		pro.CreateFeatureVectorForTest(test, featureTest);
+		//String classValue = "";
+		
+		double total = 0;
+		
+		for(int i=0;i<test.size();i++)
+		{
+			String value = GetValue(test.get(i));
+			total += Double.parseDouble(value); 
+		}
+		total = total / test.size();
+		return Double.toString(total);
+		/*pro.CreateFeatureVectorForTest(test, featureTest);
 		
 		// Classification
 		File file = new File(featureTest);
@@ -119,7 +132,7 @@ public class ML {
 		}
 		
 		return classValue;
-		
+		*/
 	}
 	
 }
