@@ -50,7 +50,7 @@ public class LoginScreen {
 		
 		if(auth == 0) {
 			
-			String directory = "C:\\Users\\star\\Desktop";
+			String directory = "/Interface/Records";
 			String uf = "users.txt";
 			String absPthU = directory + File.separator + uf;
 			users  = new ArrayList<User>();
@@ -92,7 +92,7 @@ public class LoginScreen {
 	            br = Files.newBufferedReader(Paths.get(absPthG));
 	            while ((line = br.readLine()) != null) {
 	            	if(line.length() > 0) {
-		            	String name = line.substring(0, line.indexOf("C:\\\\"));
+		            	String name = line.substring(0, line.indexOf("/Interface/Backgrounds/"));
 		            	String genres = line.substring(line.indexOf("Genres = {") + 10, line.indexOf("Content = {")-2);
 		            	//System.out.println(line + "line");
 		            	String con = line.substring(line.indexOf("Content = {")+ 11, line.indexOf("Rating = {")-2);
@@ -177,7 +177,7 @@ public class LoginScreen {
 			
 			JLabel bgi= new JLabel("bg");
 			bgi.setFont(new Font("Segoe UI", Font.BOLD, 13));
-			bgi.setIcon(new ImageIcon("C:\\Users\\star\\Desktop\\eclipse-ws\\Opinion Mining For Games\\OMBG.png"));
+			bgi.setIcon(new ImageIcon("/Interface/Backgrounds/OMBG.png"));
 			bgi.setBounds(0, 0, 610, 510);
 			
 		    f.getContentPane().add(bgi);
@@ -200,7 +200,7 @@ public class LoginScreen {
 			games.setFont(new Font("Segoe UI", Font.BOLD, 13));
 			menuBar.add(games);
 			
-			String directory = "C:\\Users\\star\\Desktop";
+			String directory = "/Interface/Records";
 			String fileName = "games.txt";
 			String absPth = directory + File.separator + fileName;
 			
@@ -208,8 +208,8 @@ public class LoginScreen {
 	            String line;
 	            while ((line = br.readLine()) != null) {
 	            	if(line.length() > 0) {
-		            	String name = line.substring(0, line.indexOf("C:\\\\")-1);
-		            	String p2p = line.substring(line.indexOf("C:\\\\"), line.indexOf("Genres = {"));
+		            	String name = line.substring(0, line.indexOf("/Interface/Backgrounds/")-1);
+		            	String p2p = line.substring(line.indexOf("/Interface/Backgrounds/"), line.indexOf("Genres = {"));
 		            	String genres = line.substring(line.indexOf("Genres = {") + 10, line.indexOf("Content = {")-2);
 		            	String content = line.substring(line.indexOf("Content = {")+ 11, line.length()-1);
 		            	
@@ -330,7 +330,7 @@ public class LoginScreen {
 					
 					JLabel bgi= new JLabel("bg");
 					bgi.setFont(new Font("Segoe UI", Font.BOLD, 13));
-					bgi.setIcon(new ImageIcon("C:\\Users\\star\\Desktop\\eclipse-ws\\Opinion Mining For Games\\OMBG.png"));
+					bgi.setIcon(new ImageIcon("/interface/Backgrounds/OMBG.png"));
 					bgi.setBounds(0, 0, 580, 510);
 					
 				    f.getContentPane().add(bgi);
@@ -345,7 +345,7 @@ public class LoginScreen {
 			
 			JLabel bg= new JLabel("bg");
 			bg.setFont(new Font("Segoe UI", Font.BOLD, 13));
-			bg.setIcon(new ImageIcon("C:\\Users\\star\\Desktop\\eclipse-ws\\Opinion Mining For Games\\OMBG.png"));
+			bg.setIcon(new ImageIcon("/Interface/Backgrounds/OMBG.png"));
 			bg.setBounds(0, 0, 1180, 510);
 			
 			f.getContentPane().add(bg);
@@ -369,7 +369,7 @@ public class LoginScreen {
 			games.setFont(new Font("Segoe UI", Font.BOLD, 13));
 			menuBar.add(games);
 			
-			String directory = "C:\\Users\\star\\Desktop";
+			String directory = "/Interface/Records";
 			String fileName = "games.txt";
 			String absPth = directory + File.separator + fileName;
 
@@ -377,8 +377,8 @@ public class LoginScreen {
 	            String line;
 	            while ((line = br.readLine()) != null) {
 	            	if(line.length() > 0) {
-		            	String name = line.substring(0, line.indexOf("C:\\\\")-1);
-		            	String p2p = line.substring(line.indexOf("C:\\\\"), line.indexOf("Genres = {"));
+		            	String name = line.substring(0, line.indexOf("/Interface/Backgrounds/")-1);
+		            	String p2p = line.substring(line.indexOf("/Interface/Backgrounds/"), line.indexOf("Genres = {"));
 		            	String genres = line.substring(line.indexOf("Genres = {") +10, line.indexOf("Content = {")-2);
 		            	String content = line.substring(line.indexOf("Content = {")+ 11, line.indexOf("Rating = {")-2);
 		            	
@@ -392,7 +392,7 @@ public class LoginScreen {
 			
 			JLabel bg= new JLabel("bg");
 			bg.setFont(new Font("Segoe UI", Font.BOLD, 13));
-			bg.setIcon(new ImageIcon("C:\\Users\\star\\Desktop\\eclipse-ws\\Opinion Mining For Games\\OMBG.png"));
+			bg.setIcon(new ImageIcon("/Interface/Backgrounds/OMBG.png"));
 			bg.setBounds(0, 0, 1180, 510);
 			
 			f.getContentPane().add(bg);
@@ -407,7 +407,7 @@ public class LoginScreen {
 		
 		textArea = new JTextArea();
 		recom = new JTextArea();
-		String directory = "C:\\Users\\star\\Desktop";
+		String directory = "/Interface/Records";
 		String cf = "comments.txt";
 		String absPthC = directory + File.separator + cf;
 		
